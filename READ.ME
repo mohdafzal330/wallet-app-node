@@ -1,0 +1,34 @@
+Application running guide: (You can follow the VIDEO also attached in this repository)
+-------------------------------------------------------------------------------------------
+
+Prerequisits: Node, NPM, MongoDB should be installed on local machine.
+
+1 - Clone this repo from this link: https://github.com/mohdafzal330/wallet-app-node.git
+
+2 - Run the "npm install" command inside the same directory where the project is cloned
+
+3 - Run the "node app.js" to run the application
+
+4 - If not working then try to change the connection strin for mongodb.
+
+
+Documentation of the APIs
+-------------------------------------
+
+
+Setup a Wallet:
+POST http://localhost:3000/api/wallet/setup
+Body: {balance,name}
+
+
+Make a credit/debit transaction:
+POST http://localhost:3000/api/wallet/transact/walletId
+Body: {amount,description}
+Negative amount - Debit amount, Positvie amount - Credit amount
+
+Fetch the transactions of a Wallet:
+GET http://localhost:3000/api/wallet/transactions?walletId=123&skip=0&limit=10
+
+
+Fetch the Details of a Wallet:
+GET http://localhost:3000/api/wallet/walletId
