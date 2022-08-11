@@ -1,41 +1,37 @@
 const express = require("express");
+const walletService = require('./services/wallet-service')
 const baseUrl = '/api/wallet';
 
-
 const app = express();
+app.use(express.json());
 
-//setup wallet
-app.post(baseUrl+'/setup',(req,res) => {
-    const params = req.params;
+//setup wallet 
+app.post(baseUrl+'/setup',async (req,res) => {
     const walletName = req.body.name;
     const initialBalance = req.body.balance;
-    res.send('Wallet created '+walletName);
+    const response = await walletService.setupWallet(walletName,initialBalance);
+    res.send(response);
 });
 
 //make transaction into wallet
-app.post(baseUrl+'/transact/:id',(req,res) => {
+app.post(baseUrl+'/transact/:id',async (req,res) => {
     const walletId = req.params.id;
-    const amount = +req.body.balance;
-    if(isNaN(walletId)){
-        return res.send(400);
-    }
-    res.send('Done '+walletId);
+    const response = await walletService.transactWallet(walletId,req.body);
+    res.send(response);
 });
 
-app.get(baseUrl+'/transactions',(req,res)=>{
+app.get(baseUrl+'/transactions',async (req,res)=>{
     const walletId = req.query.walletId;
     const skip = req.query.skip;
     const limit = req.query.limit;
-    console.log(walletId,skip,limit);
-    res.send('data ');
+    const response = await walletService.getWalletTransactions(walletId,skip,limit);
+    res.send(response);
 });
 
-app.get(baseUrl+'/:id',(req,res)=>{
+app.get(baseUrl+'/:id',async (req,res)=>{
     const walletId = req.params.id;
-    if(isNaN(walletId)){
-        res.send(400);
-    }
-    res.send('Details '+walletId);
+    const response = await walletService.getWalletDetails(walletId);
+    res.send(response);
 })
 
 app.listen(3000,()=>{
