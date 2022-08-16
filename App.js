@@ -34,6 +34,7 @@ app.get(baseUrl+'/:id',async (req,res)=>{
     res.send(response);
 })
 
-app.listen(3000,()=>{
+const port = process.env.PORT || 5000;
+app.listen(port,()=>{
     console.log('App is listning on port: 3000');
 })
